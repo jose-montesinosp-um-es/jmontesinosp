@@ -34,18 +34,32 @@ class Ejercicio:
             upsert=True
         )
 
+    @classmethod
+    def from_dict(cls, data):
+        ejercicio = cls(
+            nombre=data["nombre"],
+            musculo=data["musculo"],
+            descripcion=data.get("descripcion", ""),
+            _id=data["_id"]
+        )
+        ejercicio.series = data.get("series", [])
+        ejercicio.reps = data.get("reps", [])
+        ejercicio.cargas = data.get("cargas", [])
+        ejercicio.rir = data.get("rir", [])
+        return ejercicio
+
     def actualizarSeries(self, series):
         self.series = series
-        self.guardar_en_db()
+        self.guardar()
     
     def actualizarReps(self, serie, reps):
         self.reps[serie-1] = reps
-        self.guardar_en_db()
+        self.guardar()
     
     def actualizarCarga(self, serie, carga):
         self.carga[serie-1] = carga
-        self.guardar_en_db()
+        self.guardar()
     
     def actualizarRIR(self, rir):
         self.rir = rir
-        self.guardar_en_db()
+        self.guardar()

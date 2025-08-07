@@ -23,4 +23,23 @@ class Progreso:
         }
 
     def guardar(self, db):
-        db.progreso.update_one(self.formato())
+        db.progreso.update_one(
+            {"_id": self._id},
+            {"$set": self.formato()},
+            upsert=True
+        )
+
+    @classmethod
+    def from_dict(cls, data):
+        progreso = cls(
+            usuario_id=data["usuario_id"],
+            rutina_id=data["rutina_id"],
+            ejercicio_id=data["ejercicio_id"],
+            series=data.get("series", []),
+            reps=data.get("reps", []),
+            cargas=data.get("cargas", []),
+            rir=data.get("rir", []),
+            fecha=data.get("fecha"),
+            _id=data["_id"]
+        )
+        return progreso

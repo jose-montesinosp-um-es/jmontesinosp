@@ -19,6 +19,15 @@ class Musculo:
             {"$set": self.formato()},
             upsert=True
         )
+    
+    @classmethod
+    def from_dict(cls, data):
+        musculo = cls(
+            nombre=data["nombre"],
+            _id=data["_id"]
+        )
+        musculo.ejercicios = data.get("ejercicios", [])
+        return musculo
 
     def agregar_ejercicio(self, db, Ejercicio):
         self.ejercicios.append(Ejercicio)

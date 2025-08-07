@@ -25,6 +25,17 @@ class Rutina:
             {"$set": self.formato()},
             upsert=True
         )
+    
+    @classmethod
+    def from_dict(cls, data):
+        rutina = cls(
+            nombre=data["nombre"],
+            usuario_id=data["usuario_id"],
+            _id=data["_id"]
+        )
+        rutina.musculos = data.get("musculos", [])
+        rutina.fecha_creacion = data.get("fecha_creacion")
+        return rutina
 
     def eliminarMusculo(self, db, nombre_musculo):
         
